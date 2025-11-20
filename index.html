@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chat Interface</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="chat-container">
+        <img src="abstract-logos.png" alt="Header Logo" class="header-image" />
+        <h1>AI Chat Assistant</h1>
+
+        <!-- Chat Display -->
+        <div id="chat-display" class="chat-display">
+          <div class="welcome-message">
+            👋 Welcome! Ask me anything to get started.
+          </div>
+        </div>
+
+        <!-- Prompt Templates Section -->
+        <div class="prompt-section">
+          <p class="prompt-label">💡 Suggested Question Templates:</p>
+
+          <div class="prompt-list">
+            <button class="template-button" data-template="What is [stock] projected to grow in the following month?">
+              Stock Projection
+            </button>
+
+            <button class="template-button" data-template="Analyze the financial performance of [company] over the last quarter.">
+              Quarterly Analysis
+            </button>
+
+            <button class="template-button" data-template="What are the top investment opportunities for [industry] right now?">
+              Investment Ideas
+            </button>
+
+            <button class="template-button" data-template="Explain whether now is a good time to buy [stock].">
+              Buy Recommendation
+            </button>
+          </div>
+        </div>
+
+        <!-- ✅ USER INPUT BOX (added) -->
+        <div class="input-container">
+          <input 
+            type="text" 
+            id="user-input" 
+            class="user-input" 
+            placeholder="Type your message..." 
+          />
+          <button id="send-button" class="send-button">Send</button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading" style="display: none;">
+          🤔 Thinking...
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
