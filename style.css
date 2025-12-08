@@ -81,6 +81,19 @@ h1 {
   margin-left: auto;
 }
 
+.ai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.ai-message {
+  display: flex;
+  align-items: flex-start;
+}
+
 .ai-message {
   background: #e5e7eb;
   color: #1f2937;

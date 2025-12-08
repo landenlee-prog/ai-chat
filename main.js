@@ -42,13 +42,24 @@ Keep answers under 8 sentences. Minimize generic risk discussion - focus on what
 function addMessage(content, isUser = false) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
-  messageDiv.textContent = content;
   
+  // Add avatar for AI messages
+  if (!isUser) {
+    const avatar = document.createElement('img');
+    avatar.src = 'clanker.jpg';
+    avatar.alt = 'AI';
+    avatar.className = 'ai-avatar';
+    messageDiv.appendChild(avatar);
+  }
+  
+  const textSpan = document.createElement('span');
+  textSpan.textContent = content;
+  messageDiv.appendChild(textSpan);
+
   chatDisplay.appendChild(messageDiv);
-  
-  // Auto-scroll to the bottom
   chatDisplay.scrollTop = chatDisplay.scrollHeight;
 }
+
 
 // Function to show/hide loading indicator
 function setLoading(isLoading) {
