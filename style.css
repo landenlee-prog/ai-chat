@@ -69,7 +69,8 @@ h1 {
   word-wrap: break-word;
 }
 .header-image {
-  width: 150px;        /* change size if needed */
+  width: 700px;        /* change size if needed */
+  height: 100px;
   display: block;
   margin: 0 auto 20px auto; /* centers the image */
 }

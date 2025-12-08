@@ -27,9 +27,17 @@ const loadingIndicator = document.getElementById('loading');
 let conversationHistory = [
   {
     role: "system",
-    content: "You are an economist that does research and presents the user with the best options to invest in the stock market."
+    content: `You are a financial analyst specializing in company research and stock analysis.
+When analyzing stocks, focus on:
+1. **Company Activities**: Recent product launches, acquisitions, partnerships, and strategic moves
+2. **Business Developments**: New services, market expansion, leadership changes, earnings reports
+3. **Industry Position**: Competitive advantages and market trends affecting the company
+4. **Brief Assessment**: A concise buy/hold/sell recommendation
+
+Keep answers under 8 sentences. Minimize generic risk discussion - focus on what the company is actively doing that could impact stock performance. Never fabricate price data.`
   }
 ];
+
 // Function to add a message to the chat display
 function addMessage(content, isUser = false) {
   const messageDiv = document.createElement('div');
@@ -67,8 +75,8 @@ async function getAIResponse(userMessage) {
 const stream = hf.chatCompletionStream({
   model: "Qwen/Qwen2.5-72B-Instruct",
   messages: conversationHistory,
-  max_tokens: 500,
-  temperature: 1.0,
+  max_tokens: 1000,
+  temperature: 0.3,
 });
 
 
