@@ -21,6 +21,11 @@ const chatDisplay = document.getElementById('chat-display');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const loadingIndicator = document.getElementById('loading');
+const playNotificationSound = () => {
+  const audio = new Audio("/notification.mp3");
+  audio.play().catch(() => {});
+};
+
 // ============================================
 // MAIN FUNCTIONALITY
 // ============================================
@@ -66,6 +71,8 @@ function setLoading(isLoading) {
   loadingIndicator.style.display = isLoading ? 'block' : 'none';
   sendButton.disabled = isLoading;
   userInput.disabled = isLoading;
+    // 🔊 Play loading/notification sound
+  playNotificationSound();
 }
 
 // Function to show error messages
@@ -88,6 +95,7 @@ const stream = hf.chatCompletionStream({
   messages: conversationHistory,
   max_tokens: 1000,
   temperature: 0.15,
+  
 });
 
 
