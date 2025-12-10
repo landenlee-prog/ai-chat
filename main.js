@@ -16,6 +16,22 @@ const hf = new HfInference(API_KEY);
 // ============================================
 // DOM ELEMENTS
 // ============================================
+async function fetchFinancialData(query) {
+  const API_KEY = import.meta.env.VITE_AV_API_KEY;
+
+  // You can change the endpoint depending on your needs
+  const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey=${API_KEY}`;
+
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("Financial API error:", err);
+    return null;
+  }
+}
 
 const chatDisplay = document.getElementById('chat-display');
 const userInput = document.getElementById('user-input');
@@ -31,16 +47,21 @@ const playNotificationSound = () => {
 // ============================================
 let conversationHistory = [
   {
-    role: "system",
-    content: `You are a financial analyst specializing in company research and stock analysis.
-When analyzing stocks, focus on:
-1. **Company Activities**: Recent product launches, acquisitions, partnerships, and strategic moves
-2. **Business Developments**: New services, market expansion, leadership changes, earnings reports
-3. **Industry Position**: Competitive advantages and market trends affecting the company
-4. **Brief Assessment**: A concise buy/hold/sell recommendation
+  role: "system",
+  content: `
+You are a financial analysis assistant.
+Today's actual date is: ${new Date().toLocaleDateString("en-US")}
 
-Keep answers under 8 sentences. Minimize generic risk discussion - focus on what the company is actively doing that could impact stock performance. Never fabricate price data.`
-  }
+ALWAYS use today's real date when doing analysis.
+NEVER assume it is 2023 or any past year.
+If the user asks "what year is it", respond with today's date.
+You also receive REAL_DATA from Alpha Vantage inside the user message.
+Never invent numbers.
+Keep responses concise and evidence-based.
+`
+}
+
+
 ];
 
 // Function to add a message to the chat display
@@ -149,7 +170,24 @@ async function handleSendMessage() {
   
   try {
     // Get AI response
-    const aiResponse = await getAIResponse(message);
+    // Fetch real verified market data FIRST
+const realData = await fetchFinancialData(message);
+
+// Build enhanced message content
+const enhancedUserMessage = `
+USER QUESTION:
+${message}
+
+REAL DATA FROM ALPHA VANTAGE:
+${JSON.stringify(realData, null, 2)}
+
+Respond based ONLY on real data when relevant. 
+If data is missing, say "Data unavailable from API".
+`;
+
+// Get AI response using augmented data
+const aiResponse = await getAIResponse(enhancedUserMessage);
+
     
     // Add AI response to chat
     addMessage(aiResponse, false);
