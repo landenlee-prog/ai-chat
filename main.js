@@ -37,10 +37,7 @@ const chatDisplay = document.getElementById('chat-display');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const loadingIndicator = document.getElementById('loading');
-const playNotificationSound = () => {
-  const audio = new Audio("/notification.mp3");
-  audio.play().catch(() => {});
-};
+
 
 // ============================================
 // MAIN FUNCTIONALITY
@@ -93,7 +90,6 @@ function setLoading(isLoading) {
   sendButton.disabled = isLoading;
   userInput.disabled = isLoading;
     // 🔊 Play loading/notification sound
-  playNotificationSound();
 }
 
 // Function to show error messages
@@ -224,6 +220,40 @@ document.querySelectorAll(".template-button").forEach(button => {
     userInput.focus();
   });
 });
+
+// Hover preview for template buttons
+let previousInput = "";
+let hoveredTemplate = "";
+let clickedTemplate = false;
+
+document.querySelectorAll(".template-button").forEach(button => {
+
+  // Hover preview
+  button.addEventListener("mouseenter", () => {
+    clickedTemplate = false; // reset click state
+    previousInput = userInput.value;
+
+    hoveredTemplate = button.getAttribute("data-template");
+    userInput.value = hoveredTemplate;
+  });
+
+  // When mouse leaves
+  button.addEventListener("mouseleave", () => {
+    // Only restore input if the user *did not click*
+    if (!clickedTemplate) {
+      userInput.value = previousInput;
+    }
+  });
+
+  // On click: Lock in the template
+  button.addEventListener("click", () => {
+    clickedTemplate = true;   // prevents reset
+    userInput.value = hoveredTemplate;
+    userInput.focus();
+  });
+
+});
+
 // Focus input on load
 userInput.focus();
 
